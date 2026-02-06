@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: preppath-db
+    environment:
+      POSTGRES_DB: preppath_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - preppath_data:/var/lib/postgresql/data
+    networks:
+      - preppath-network
+    restart: unless-stopped
+
+volumes:
+  preppath_data:
+    driver: local
+
+networks:
+  preppath-network:
+    driver: bridge

@@ -1,0 +1,22 @@
+# Backend
+preppath-backend/target/
+preppath-backend/.idea/
+preppath-backend/*.iml
+
+# Frontend
+preppath-frontend/node_modules/
+preppath-frontend/dist/
+preppath-frontend/.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
