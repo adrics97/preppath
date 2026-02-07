@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Applications from './pages/Applications';
 import Companies from './pages/Companies';
 import Questions from './pages/Questions';
+import Landing from './pages/Landing';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -41,6 +42,10 @@ const PublicRoute = ({ children }) => {
 function AppRoutes() {
   return (
     <Routes>
+      {/* Landing Page */}
+      <Route path="/" element={<Landing />} />
+
+
       {/* Public Routes */}
       <Route
         path="/login"
