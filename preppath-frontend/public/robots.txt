@@ -1,0 +1,12 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow authenticated pages
+Disallow: /dashboard
+Disallow: /applications
+Disallow: /companies
+Disallow: /questions
+
+# Sitemap
+Sitemap: https://preppathapp.com/sitemap.xml
