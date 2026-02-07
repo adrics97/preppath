@@ -98,11 +98,9 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      {/* Redirect root to login */}
-      <Route path="/" element={<Navigate to="/login" />} />
 
       {/* 404 - Not Found */}
-      <Route path="*" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
