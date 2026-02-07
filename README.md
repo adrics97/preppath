@@ -4,13 +4,27 @@
 
 PrepPath is a full-stack web application designed to help developers organize their job search process, track applications, and prepare for technical interviews. Built with modern technologies and best practices.
 
-🔗 **Live Demo:** [preppathapp.com](https://preppathapp.com) *(Coming soon)*
 
 ---
 
 ## 📸 Screenshots
 
-*Screenshots will be added here*
+
+### Landing Page
+![Landing Page](.github/images/landing.png)
+
+### Dashboard
+![Dashboard](.github/images/dashboard.png)
+
+### Applications Tracker
+![Applications](.github/images/applications.png)
+
+### Company Database
+![Companies](.github/images/companies.png)
+
+### Question Bank
+![Questions](.github/images/questions.png)
+
 
 ---
 
@@ -319,24 +333,18 @@ npm run test
 
 ## 📦 Deployment
 
-### Backend (Railway/Render)
-1. Push code to GitHub
-2. Connect repository to Railway/Render
-3. Add environment variables:
-   - `SPRING_DATASOURCE_URL`
-   - `SPRING_DATASOURCE_USERNAME`
-   - `SPRING_DATASOURCE_PASSWORD`
-   - `JWT_SECRET`
-4. Deploy
+### Backend (AWS EC2 + RDS)
+- **Server:** Ubuntu 24.04 on EC2
+- **Database:** PostgreSQL on RDS
+- **Web Server:** Nginx with SSL (Let's Encrypt)
+- **Domain:** api.preppathapp.com
+- **Containerization:** Docker
 
 ### Frontend (Vercel)
-1. Push code to GitHub
-2. Import project in Vercel
-3. Set build command: `npm run build`
-4. Set output directory: `dist`
-5. Add environment variable:
-   - `VITE_API_URL` (backend URL)
-6. Deploy
+- **Hosting:** Vercel
+- **Domain:** preppathapp.com
+- **Build:** Vite + React
+- **Auto-deploy:** GitHub integration
 
 ---
 
