@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const API_URL = 'http://34.235.129.159:8080/api';
+const API_URL = 'https://api.preppathapp.com/api';
 //const API_URL_DEV = 'http://localhost:8080/api';
 
 const api = axios.create({
