@@ -9,6 +9,8 @@ import Companies from './pages/Companies';
 import Questions from './pages/Questions';
 import Landing from './pages/Landing';
 import Pricing from './pages/Pricing';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentCancel from './pages/PaymentCancel';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -108,6 +110,10 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/payment/success" element={<PaymentSuccess />} />
+      <Route path="/payment/cancel" element={<PaymentCancel />} />
+
 
       {/* 404 - Not Found */}
       <Route path="*" element={<Navigate to="/" />} />
