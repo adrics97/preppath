@@ -134,8 +134,8 @@ public class StripeService {
 
     private void handleCheckoutCompleted(Event event) {
         try {
-            // Obtener el ID de la sesión desde el evento
-            String sessionId = event.getData().getObject().get("id").getAsString();
+            // Obtener el ID de la sesión desde el objeto del evento
+            String sessionId = event.getData().getObject().getId();
             
             // Recuperar la sesión completa desde Stripe API
             Session session = Session.retrieve(sessionId);
@@ -187,8 +187,8 @@ public class StripeService {
 
     private void handleSubscriptionUpdated(Event event) {
         try {
-            // Obtener el ID de la suscripción desde el evento
-            String subscriptionId = event.getData().getObject().get("id").getAsString();
+            // Obtener el ID de la suscripción desde el objeto del evento
+            String subscriptionId = event.getData().getObject().getId();
             
             // Recuperar la suscripción completa desde Stripe API
             Subscription subscription = Subscription.retrieve(subscriptionId);
