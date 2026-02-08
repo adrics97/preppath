@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.google.gson.JsonObject;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -133,20 +133,27 @@ public class StripeService {
     }
 
     private void handleCheckoutCompleted(Event event) {
-        Session session = (Session) event.getDataObjectDeserializer()
-                .getObject()
-                .orElseThrow(() -> new RuntimeException("Error deserializando sesión"));
-
-        Long userId = Long.parseLong(session.getMetadata().get("user_id"));
-        String subscriptionId = session.getSubscription();
-        String customerId = session.getCustomer();
-
         try {
+            // Parsear el evento manualmente
+            JsonObject eventData = event.getData().getRawJsonObject();
+            String sessionId = eventData.get("id").getAsString();
+
+            // Recuperar la sesión completa desde Stripe
+            Session session = Session.retrieve(sessionId);
+
+            Long userId = Long.parseLong(session.getMetadata().get("user_id"));
+            String subscriptionId = session.getSubscription();
+            String customerId = session.getCustomer();
+
+            log.info("Usuario ID: {}, Subscription ID: {}, Customer ID: {}", userId, subscriptionId, customerId);
+
             Subscription stripeSubscription = Subscription.retrieve(subscriptionId);
             String priceId = stripeSubscription.getItems().getData().get(0).getPrice().getId();
 
+            log.info("Price ID: {}", priceId);
+
             SubscriptionPlan plan = planRepository.findByStripePriceId(priceId)
-                    .orElseThrow(() -> new RuntimeException("Plan no encontrado"));
+                    .orElseThrow(() -> new RuntimeException("Plan no encontrado para priceId: " + priceId));
 
             UserSubscription userSubscription = subscriptionRepository.findByUserId(userId)
                     .orElse(new UserSubscription());
@@ -180,25 +187,31 @@ public class StripeService {
     }
 
     private void handleSubscriptionUpdated(Event event) {
-        Subscription subscription = (Subscription) event.getDataObjectDeserializer()
-                .getObject()
-                .orElseThrow(() -> new RuntimeException("Error deserializando suscripción"));
+        try {
+            JsonObject eventData = event.getData().getRawJsonObject();
+            String subscriptionId = eventData.get("id").getAsString();
 
-        UserSubscription userSubscription = subscriptionRepository
-                .findByStripeSubscriptionId(subscription.getId())
-                .orElseThrow(() -> new RuntimeException("Suscripción no encontrada"));
+            Subscription subscription = Subscription.retrieve(subscriptionId);
 
-        userSubscription.setStatus(subscription.getStatus());
-        userSubscription.setCurrentPeriodEnd(
-                LocalDateTime.ofInstant(
-                        Instant.ofEpochSecond(subscription.getCurrentPeriodEnd()),
-                        ZoneId.systemDefault()
-                )
-        );
-        userSubscription.setCancelAtPeriodEnd(subscription.getCancelAtPeriodEnd());
+            UserSubscription userSubscription = subscriptionRepository
+                    .findByStripeSubscriptionId(subscription.getId())
+                    .orElseThrow(() -> new RuntimeException("Suscripción no encontrada para ID: " + subscriptionId));
 
-        subscriptionRepository.save(userSubscription);
-        log.info("Suscripción actualizada: {}", subscription.getId());
+            userSubscription.setStatus(subscription.getStatus());
+            userSubscription.setCurrentPeriodEnd(
+                    LocalDateTime.ofInstant(
+                            Instant.ofEpochSecond(subscription.getCurrentPeriodEnd()),
+                            ZoneId.systemDefault()
+                    )
+            );
+            userSubscription.setCancelAtPeriodEnd(subscription.getCancelAtPeriodEnd());
+
+            subscriptionRepository.save(userSubscription);
+            log.info("Suscripción actualizada: {}", subscription.getId());
+        } catch (StripeException e) {
+            log.error("Error procesando subscription updated", e);
+            throw new RuntimeException(e);
+        }
     }
 
     private void handleSubscriptionDeleted(Event event) {

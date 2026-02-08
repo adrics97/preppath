@@ -8,6 +8,7 @@ import Applications from './pages/Applications';
 import Companies from './pages/Companies';
 import Questions from './pages/Questions';
 import Landing from './pages/Landing';
+import Pricing from './pages/Pricing';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -95,6 +96,15 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <Questions />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/pricing"
+        element={
+          <ProtectedRoute>
+            <Pricing />
           </ProtectedRoute>
         }
       />
