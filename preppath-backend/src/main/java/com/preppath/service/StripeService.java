@@ -134,10 +134,11 @@ public class StripeService {
 
     private void handleCheckoutCompleted(Event event) {
         try {
-            // Deserializar el objeto Session del evento
-            Session session = (Session) event.getDataObjectDeserializer()
-                    .getObject()
-                    .orElseThrow(() -> new RuntimeException("Error deserializando sesión de checkout"));
+            // Obtener el ID de la sesión desde el evento
+            String sessionId = event.getData().getObject().get("id").getAsString();
+            
+            // Recuperar la sesión completa desde Stripe API
+            Session session = Session.retrieve(sessionId);
 
             Long userId = Long.parseLong(session.getMetadata().get("user_id"));
             String subscriptionId = session.getSubscription();
@@ -186,10 +187,11 @@ public class StripeService {
 
     private void handleSubscriptionUpdated(Event event) {
         try {
-            // Deserializar el objeto Subscription del evento
-            Subscription subscription = (Subscription) event.getDataObjectDeserializer()
-                    .getObject()
-                    .orElseThrow(() -> new RuntimeException("Error deserializando suscripción"));
+            // Obtener el ID de la suscripción desde el evento
+            String subscriptionId = event.getData().getObject().get("id").getAsString();
+            
+            // Recuperar la suscripción completa desde Stripe API
+            Subscription subscription = Subscription.retrieve(subscriptionId);
 
             UserSubscription userSubscription = subscriptionRepository
                     .findByStripeSubscriptionId(subscription.getId())
