@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -134,9 +135,29 @@ public class StripeService {
 
     private void handleCheckoutCompleted(Event event) {
         try {
-            // Extraer el objeto JSON del evento
-            com.google.gson.JsonObject jsonObject = event.getData().getObject().toJson().getAsJsonObject();
+            log.info("=== DEBUG: Evento completo ===");
+            log.info("Event type: {}", event.getType());
+            log.info("Event ID: {}", event.getId());
+            
+            log.info("=== DEBUG: Event.getData() ===");
+            log.info("getData: {}", event.getData());
+            
+            log.info("=== DEBUG: Event.getData().getObject() ===");
+            log.info("getObject: {}", event.getData().getObject());
+            log.info("getObject class: {}", event.getData().getObject().getClass().getName());
+            
+            // Intentar obtener el JSON
+            String jsonString = event.getData().getObject().toJson();
+            log.info("=== DEBUG: JSON String ===");
+            log.info("JSON: {}", jsonString);
+            
+            JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
+            log.info("=== DEBUG: JsonObject ===");
+            log.info("JsonObject: {}", jsonObject);
+            
             String sessionId = jsonObject.get("id").getAsString();
+            log.info("=== DEBUG: Session ID ===");
+            log.info("Session ID: {}", sessionId);
             
             // Recuperar la sesión completa desde Stripe API
             Session session = Session.retrieve(sessionId);
@@ -190,7 +211,8 @@ public class StripeService {
         try {
             
             // Extraer el objeto JSON del evento
-            com.google.gson.JsonObject jsonObject = event.getData().getObject().toJson().getAsJsonObject();
+            String jsonString = event.getData().getObject().toJson();
+            JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
             String subscriptionId = jsonObject.get("id").getAsString();
             
             // Recuperar la suscripción completa desde Stripe API
