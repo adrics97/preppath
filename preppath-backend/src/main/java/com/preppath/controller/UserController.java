@@ -28,6 +28,7 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
+
             User user = userService.getUserById(userDetails.getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
