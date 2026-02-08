@@ -135,32 +135,15 @@ public class StripeService {
 
     private void handleCheckoutCompleted(Event event) {
         try {
-            log.info("=== DEBUG: Evento completo ===");
-            log.info("Event type: {}", event.getType());
-            log.info("Event ID: {}", event.getId());
-            
-            log.info("=== DEBUG: Event.getData() ===");
-            log.info("getData: {}", event.getData());
-            
-            log.info("=== DEBUG: Event.getData().getObject() ===");
-            log.info("getObject: {}", event.getData().getObject());
-            log.info("getObject class: {}", event.getData().getObject().getClass().getName());
-            
-            // Intentar obtener el JSON
+            // Extraer el ID de la sesión desde el evento
             String jsonString = event.getData().getObject().toJson();
-            log.info("=== DEBUG: JSON String ===");
-            log.info("JSON: {}", jsonString);
-            
             JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
-            log.info("=== DEBUG: JsonObject ===");
-            log.info("JsonObject: {}", jsonObject);
-            
             String sessionId = jsonObject.get("id").getAsString();
-            log.info("=== DEBUG: Session ID ===");
-            log.info("Session ID: {}", sessionId);
             
             // Recuperar la sesión completa desde Stripe API
             Session session = Session.retrieve(sessionId);
+            
+            log.info("Procesando checkout completado para session: {}", sessionId);
 
             Long userId = Long.parseLong(session.getMetadata().get("user_id"));
             String subscriptionId = session.getSubscription();

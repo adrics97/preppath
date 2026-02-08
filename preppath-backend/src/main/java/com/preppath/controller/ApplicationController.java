@@ -8,6 +8,7 @@ import com.preppath.model.Application;
 import com.preppath.model.Application.ApplicationStatus;
 import com.preppath.security.UserDetailsImpl;
 import com.preppath.service.ApplicationService;
+import com.preppath.service.SubscriptionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class ApplicationController {
 
     private final ApplicationService applicationService;
+    private final SubscriptionService subscriptionService;
 
     /**
      * Create a new application
@@ -37,6 +39,13 @@ public class ApplicationController {
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @Valid @RequestBody ApplicationRequest applicationRequest) {
         try {
+            boolean canCreate = subscriptionService.canCreateApp(userDetails.getId());
+            if (!canCreate) {
+                return ResponseEntity
+                        .status(HttpStatus.FORBIDDEN)
+                        .body(new MessageResponse("Error: You have reached the maximum number of applications for your plan. Please upgrade to Pro."));
+            }
+
             Application application = Application.builder()
                     .position(applicationRequest.getPosition())
                     .applicationDate(applicationRequest.getApplicationDate() != null
@@ -58,6 +67,8 @@ public class ApplicationController {
                     userDetails.getId(),
                     applicationRequest.getCompanyId()
             );
+
+            subscriptionService.incrementAppCount(userDetails.getId());
 
             ApplicationResponse response = mapToResponse(savedApplication);
 
@@ -280,6 +291,7 @@ public class ApplicationController {
             }
 
             applicationService.deleteApplication(id);
+            subscriptionService.decrementAppCount(userDetails.getId());
             return ResponseEntity.ok(new MessageResponse("Application deleted successfully"));
 
         } catch (Exception e) {
