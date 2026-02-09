@@ -4,6 +4,7 @@ import { PRICE_IDS } from '../config/stripe';
 
 const Pricing = () => {
     const [loading, setLoading] = useState(false);
+    const [currentPlan, setCurrentPlan] = useState(null);
 
     useEffect(() => {
         const fetchSubscription = async () => {
@@ -135,8 +136,8 @@ const Pricing = () => {
                                 onClick={handleSubscribe}
                                 disabled={loading || currentPlan === 'PRO'}
                                 className={`mt-8 block w-full rounded-md py-2 text-sm font-semibold transition-colors ${currentPlan === 'PRO'
-                                        ? 'bg-green-100 text-green-800 cursor-not-allowed'
-                                        : 'bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                                    ? 'bg-green-100 text-green-800 cursor-not-allowed'
+                                    : 'bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed'
                                     }`}
                             >
                                 {currentPlan === 'PRO'
