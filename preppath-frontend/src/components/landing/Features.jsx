@@ -2,12 +2,12 @@ const Features = () => {
     const features = [
         {
             icon: '📊',
-            title: 'Track Applications',
+            title: 'Job Application Tracker',
             description: 'Never lose track of where you applied. Monitor every application from submission to offer with our intuitive dashboard.',
         },
         {
             icon: '💡',
-            title: 'Question Bank',
+            title: 'Interview Question Bank',
             description: 'Build your personal library of technical interview questions. Organize by difficulty, category, and track your practice sessions.',
         },
         {
@@ -36,11 +36,12 @@ const Features = () => {
         <div className="py-24 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
+                    {/* H2 optimizado */}
                     <h2 className="text-3xl font-black text-gray-900 sm:text-4xl">
-                        Everything you need to succeed
+                        Everything You Need for Your Job Search
                     </h2>
                     <p className="mt-4 text-lg text-gray-600">
-                        Powerful features designed specifically for developers in their job search journey
+                        Powerful tools designed specifically for developers navigating the tech job market
                     </p>
                 </div>
 
@@ -53,7 +54,7 @@ const Features = () => {
                             <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl opacity-0 group-hover:opacity-10 transition duration-300"></div>
 
                             <div className="relative">
-                                <div className="text-5xl mb-4">{feature.icon}</div>
+                                <div className="text-5xl mb-4" aria-hidden="true">{feature.icon}</div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                                     {feature.title}
                                 </h3>
@@ -65,22 +66,18 @@ const Features = () => {
                     ))}
                 </div>
 
-                {/* Stats Section */}
-                <div className="mt-24 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-12 text-white">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                        <div>
-                            <div className="text-5xl font-black mb-2">500+</div>
-                            <div className="text-blue-100 text-sm uppercase tracking-wide">Active Users</div>
-                        </div>
-                        <div>
-                            <div className="text-5xl font-black mb-2">2K+</div>
-                            <div className="text-blue-100 text-sm uppercase tracking-wide">Applications Tracked</div>
-                        </div>
-                        <div>
-                            <div className="text-5xl font-black mb-2">5K+</div>
-                            <div className="text-blue-100 text-sm uppercase tracking-wide">Questions Solved</div>
-                        </div>
-                    </div>
+                {/* Stats Section - QUITA LOS NÚMEROS FALSOS POR AHORA */}
+                <div className="mt-24 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-12 text-white text-center">
+                    <h3 className="text-3xl font-black mb-4">Ready to Organize Your Job Search?</h3>
+                    <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+                        Join developers who are staying organized and landing their dream roles
+                    </p>
+                    <button
+                        onClick={() => window.location.href = '/register'}
+                        className="inline-flex items-center justify-center rounded-full py-4 px-8 text-sm font-semibold bg-white text-blue-600 hover:bg-gray-50 transition-all duration-200 shadow-lg hover:shadow-xl"
+                    >
+                        Get Started Free
+                    </button>
                 </div>
             </div>
         </div>
