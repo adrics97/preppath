@@ -8,14 +8,14 @@ const UpgradeModal = ({ isOpen, onClose, limitType }) => {
 
     const messages = {
         apps: {
-            title: 'Límite de aplicaciones alcanzado',
-            description: 'Has alcanzado el límite de 10 aplicaciones en el plan gratuito.',
-            feature: 'Aplicaciones ilimitadas'
+            title: 'Application limit reached',
+            description: 'You\'ve reached the limit of 10 applications on the free plan.',
+            feature: 'Unlimited applications'
         },
         questions: {
-            title: 'Límite de preguntas alcanzado',
-            description: 'Has alcanzado el límite de 50 preguntas en el plan gratuito.',
-            feature: 'Preguntas ilimitadas'
+            title: 'Question limit reached',
+            description: 'You\'ve reached the limit of 50 questions on the free plan.',
+            feature: 'Unlimited questions'
         }
     };
 
@@ -41,7 +41,7 @@ const UpgradeModal = ({ isOpen, onClose, limitType }) => {
 
                 {/* Beneficios de Pro */}
                 <div className="bg-blue-50 rounded-lg p-4 mb-6 text-left">
-                    <h3 className="font-semibold text-gray-900 mb-3">Con el plan Pro obtienes:</h3>
+                    <h3 className="font-semibold text-gray-900 mb-3">With the Pro plan you get:</h3>
                     <ul className="space-y-2">
                         <li className="flex items-center text-gray-700">
                             <svg className="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -53,18 +53,18 @@ const UpgradeModal = ({ isOpen, onClose, limitType }) => {
                             <svg className="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
-                            Soporte prioritario
+                            Priority support
                         </li>
                         <li className="flex items-center text-gray-700">
                             <svg className="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
-                            Análisis avanzados
+                            Advanced analytics
                         </li>
                     </ul>
                     <p className="text-center mt-4">
-                        Solo <span className="text-2xl font-bold text-blue-600">$9</span>
-                        <span className="text-gray-600">/mes</span>
+                        Only <span className="text-2xl font-bold text-blue-600">$9</span>
+                        <span className="text-gray-600">/month</span>
                     </p>
                 </div>
 
@@ -74,13 +74,13 @@ const UpgradeModal = ({ isOpen, onClose, limitType }) => {
                         onClick={handleUpgrade}
                         className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-md"
                     >
-                        Actualizar a Pro
+                        Upgrade to Pro
                     </button>
                     <button
                         onClick={onClose}
                         className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg transition-colors"
                     >
-                        Volver
+                        Go back
                     </button>
                 </div>
             </div>
