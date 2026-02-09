@@ -8,6 +8,7 @@ import com.preppath.model.Question.Difficulty;
 import com.preppath.model.Question.QuestionCategory;
 import com.preppath.security.UserDetailsImpl;
 import com.preppath.service.QuestionService;
+import com.preppath.service.SubscriptionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final SubscriptionService subscriptionService;
 
     /**
      * Create a new question
@@ -36,6 +38,14 @@ public class QuestionController {
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @Valid @RequestBody QuestionRequest questionRequest) {
         try {
+            // 🔥 VERIFICAR LÍMITE ANTES DE CREAR
+            boolean canCreate = subscriptionService.canCreateQuestion(userDetails.getId());
+            if (!canCreate) {
+                return ResponseEntity
+                        .status(HttpStatus.FORBIDDEN)
+                        .body(new MessageResponse("Error: You have reached the maximum number of questions for your plan. Please upgrade to Pro."));
+            }
+
             Question question = Question.builder()
                     .title(questionRequest.getTitle())
                     .description(questionRequest.getDescription())
@@ -53,6 +63,9 @@ public class QuestionController {
                     .build();
 
             Question savedQuestion = questionService.createQuestion(question, userDetails.getId());
+
+            // 🔥 INCREMENTAR CONTADOR DESPUÉS DE CREAR
+            subscriptionService.incrementQuestionCount(userDetails.getId());
 
             QuestionResponse response = mapToResponse(savedQuestion);
 
@@ -342,6 +355,10 @@ public class QuestionController {
             }
 
             questionService.deleteQuestion(id);
+
+            // 🔥 DECREMENTAR CONTADOR DESPUÉS DE ELIMINAR
+            subscriptionService.decrementQuestionCount(userDetails.getId());
+            
             return ResponseEntity.ok(new MessageResponse("Question deleted successfully"));
 
         } catch (Exception e) {
