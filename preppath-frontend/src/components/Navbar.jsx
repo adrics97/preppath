@@ -1,6 +1,7 @@
 import { useAuth } from '../context/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import api from '../services/api';
 
 const Navbar = () => {
     const { user, logout } = useAuth();

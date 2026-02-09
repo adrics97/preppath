@@ -1,9 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { PRICE_IDS } from '../config/stripe';
 
 const Pricing = () => {
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchSubscription = async () => {
+            try {
+                const response = await api.get('/subscription/current');
+                setCurrentPlan(response.data.planName);
+            } catch (error) {
+                console.error('Error fetching subscription:', error);
+            }
+        };
+
+        fetchSubscription();
+    }, []);
 
     const handleSubscribe = async () => {
         setLoading(true);
@@ -71,7 +84,7 @@ const Pricing = () => {
                                 disabled
                                 className="mt-8 block w-full bg-gray-300 text-gray-500 rounded-md py-2 text-sm font-semibold cursor-not-allowed"
                             >
-                                Current plan
+                                {currentPlan === 'FREE' ? 'Current plan' : 'Downgrade not available'}
                             </button>
                         </div>
                     </div>
@@ -120,10 +133,17 @@ const Pricing = () => {
                             </ul>
                             <button
                                 onClick={handleSubscribe}
-                                disabled={loading}
-                                className="mt-8 block w-full bg-blue-600 hover:bg-blue-700 text-white rounded-md py-2 text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                disabled={loading || currentPlan === 'PRO'}
+                                className={`mt-8 block w-full rounded-md py-2 text-sm font-semibold transition-colors ${currentPlan === 'PRO'
+                                        ? 'bg-green-100 text-green-800 cursor-not-allowed'
+                                        : 'bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                                    }`}
                             >
-                                {loading ? 'Processing...' : 'Upgrade to Pro'}
+                                {currentPlan === 'PRO'
+                                    ? '✓ Current plan'
+                                    : loading
+                                        ? 'Processing...'
+                                        : 'Upgrade to Pro'}
                             </button>
                         </div>
                     </div>
