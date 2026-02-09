@@ -205,6 +205,12 @@ public class StripeService {
                     .findByStripeSubscriptionId(subscription.getId())
                     .orElseThrow(() -> new RuntimeException("Suscripción no encontrada para ID: " + subscriptionId));
 
+
+            if (userSubscription == null) {
+                log.warn("Suscripción no encontrada para ID: {} - Puede que ya esté cancelada", subscriptionId);
+                return; // No es un error, simplemente ya fue procesada
+            }
+
             userSubscription.setStatus(subscription.getStatus());
             userSubscription.setCurrentPeriodEnd(
                     LocalDateTime.ofInstant(
