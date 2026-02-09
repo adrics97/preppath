@@ -358,7 +358,7 @@ public class QuestionController {
 
             // 🔥 DECREMENTAR CONTADOR DESPUÉS DE ELIMINAR
             subscriptionService.decrementQuestionCount(userDetails.getId());
-            
+
             return ResponseEntity.ok(new MessageResponse("Question deleted successfully"));
 
         } catch (Exception e) {
