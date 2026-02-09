@@ -8,22 +8,11 @@ const Pricing = () => {
     const handleSubscribe = async () => {
         setLoading(true);
         try {
-            const token = localStorage.getItem('token'); // O como guardes tu token
+            const response = await api.post('/subscription/checkout', {
+                priceId: PRICE_IDS.PRO_MONTHLY,
+                planName: 'PRO'
+            });
 
-            const response = await axios.post(
-                'https://api.preppathapp.com/api/subscription/checkout',
-                {
-                    priceId: PRICE_IDS.PRO_MONTHLY,
-                    planName: 'PRO'
-                },
-                {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }
-            );
-
-            // Redirigir a Stripe Checkout
             window.location.href = response.data.url;
         } catch (error) {
             console.error('Error creando sesión de pago:', error);

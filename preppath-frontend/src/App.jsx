@@ -11,6 +11,7 @@ import Landing from './pages/Landing';
 import Pricing from './pages/Pricing';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
+import SubscriptionDashboard from './pages/SubscriptionDashboard';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -107,6 +108,16 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <Pricing />
+          </ProtectedRoute>
+        }
+      />
+
+
+      <Route
+        path="/subscription"
+        element={
+          <ProtectedRoute>
+            <SubscriptionDashboard />
           </ProtectedRoute>
         }
       />

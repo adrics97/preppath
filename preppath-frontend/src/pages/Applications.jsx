@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import api from '../services/api';
+import UpgradeModal from '../components/UpgradeModal';
 
 const Applications = () => {
     const [applications, setApplications] = useState([]);
     const [companies, setCompanies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [showUpgradeModal, setShowUpgradeModal] = useState(false);
     const [filterStatus, setFilterStatus] = useState('ALL');
     const navigate = useNavigate();
 
@@ -51,6 +53,21 @@ const Applications = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            console.log('🔍 Verificando límite...');
+            const limitCheck = await api.get('/subscription/can-create-app');
+            console.log('✅ Respuesta límite:', limitCheck.data);
+
+
+            if (!limitCheck.data.canCreate) {
+                console.log('❌ Límite alcanzado - Mostrando modal');
+                // Mostrar modal de upgrade
+                setShowUpgradeModal(true);
+                setShowModal(false);
+                return;
+            }
+
+
+            console.log('✅ Puede crear - Continuando...');
             await api.post('/applications', {
                 ...formData,
                 companyId: parseInt(formData.companyId),
@@ -431,6 +448,11 @@ const Applications = () => {
                     </div>
                 </div>
             )}
+            <UpgradeModal
+                isOpen={showUpgradeModal}
+                onClose={() => setShowUpgradeModal(false)}
+                limitType="apps"
+            />
         </>
     );
 };

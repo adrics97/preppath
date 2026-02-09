@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import api from '../services/api';
+import UpgradeModal from '../components/UpgradeModal';
 
 const Questions = () => {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [showUpgradeModal, setShowUpgradeModal] = useState(false);
     const [filterCategory, setFilterCategory] = useState('ALL');
     const [filterDifficulty, setFilterDifficulty] = useState('ALL');
     const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
@@ -41,6 +43,15 @@ const Questions = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+
+            const limitCheck = await api.get('/subscription/can-create-question');
+
+            if (!limitCheck.data.canCreate) {
+                setShowModal(false);
+                setShowUpgradeModal(true);
+                return;
+            }
+
             await api.post('/questions', formData);
             setShowModal(false);
             resetForm();
@@ -481,6 +492,12 @@ const Questions = () => {
                     </div>
                 )
             }
+            {/* Modal de Upgrade */}
+            <UpgradeModal
+                isOpen={showUpgradeModal}
+                onClose={() => setShowUpgradeModal(false)}
+                limitType="questions"
+            />
         </>
     );
 };
