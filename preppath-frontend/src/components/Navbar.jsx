@@ -8,7 +8,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [showDropdown, setShowDropdown] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
-    const [isPro, setIsPro] = useState(false);
+    const [isPro, setIsPro] = useState(null);
     const dropdownRef = useRef(null);
 
     const handleLogout = () => {
@@ -35,6 +35,7 @@ const Navbar = () => {
                 setIsPro(response.data.planName === 'PRO');
             } catch (error) {
                 console.error('Error fetching subscription:', error);
+                setIsPro(false); // Si falla, asumir FREE
             }
         };
 
@@ -87,7 +88,7 @@ const Navbar = () => {
                     <div className="hidden md:flex items-center space-x-4">
 
                         {/* Botón Upgrade to Pro */}
-                        {!isPro && (<button
+                        {isPro === false && (<button
                             onClick={() => navigate('/pricing')}
                             className="hidden sm:flex bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition items-center space-x-2"
                         >
@@ -268,7 +269,7 @@ const Navbar = () => {
                             </svg>
                             My Subscription
                         </button>
-                        {!isPro && (<button
+                        {isPro === false && (<button
                             onClick={() => {
                                 navigate('/pricing');
                                 setShowMobileMenu(false);
