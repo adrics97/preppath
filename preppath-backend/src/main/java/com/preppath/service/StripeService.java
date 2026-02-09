@@ -223,24 +223,34 @@ public class StripeService {
     }
 
     private void handleSubscriptionDeleted(Event event) {
-        Subscription subscription = (Subscription) event.getDataObjectDeserializer()
-                .getObject()
-                .orElseThrow(() -> new RuntimeException("Error deserializando suscripción"));
+        try {
+            // Extraer el objeto JSON del evento
+            String jsonString = event.getData().getObject().toJson();
+            JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
+            String subscriptionId = jsonObject.get("id").getAsString();
 
-        UserSubscription userSubscription = subscriptionRepository
-                .findByStripeSubscriptionId(subscription.getId())
-                .orElseThrow(() -> new RuntimeException("Suscripción no encontrada"));
+            log.info("Cancelando suscripción: {}", subscriptionId);
 
-        // Cambiar a plan FREE
-        SubscriptionPlan freePlan = planRepository.findByName("FREE")
-                .orElseThrow(() -> new RuntimeException("Plan FREE no encontrado"));
+            UserSubscription userSubscription = subscriptionRepository
+                    .findByStripeSubscriptionId(subscriptionId)
+                    .orElseThrow(() -> new RuntimeException("Suscripción no encontrada"));
 
-        userSubscription.setPlan(freePlan);
-        userSubscription.setStatus("cancelled");
-        userSubscription.setStripeSubscriptionId(null);
+            // Cambiar a plan FREE
+            SubscriptionPlan freePlan = planRepository.findByName("FREE")
+                    .orElseThrow(() -> new RuntimeException("Plan FREE no encontrado"));
 
-        subscriptionRepository.save(userSubscription);
-        log.info("Suscripción cancelada, usuario regresado a FREE");
+            userSubscription.setPlan(freePlan);
+            userSubscription.setStatus("cancelled");
+            userSubscription.setStripeSubscriptionId(null);
+            userSubscription.setCancelAtPeriodEnd(false);
+
+            subscriptionRepository.save(userSubscription);
+            log.info("Suscripción cancelada, usuario regresado a FREE");
+
+        } catch (Exception e) {
+            log.error("Error procesando subscription deleted", e);
+            throw new RuntimeException(e);
+        }
     }
 
     private void handlePaymentSucceeded(Event event) {
