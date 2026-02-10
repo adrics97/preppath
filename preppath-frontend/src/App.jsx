@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Applications from './pages/Applications';
+import ApplicationDetail from './pages/ApplicationDetail';
 import Companies from './pages/Companies';
 import Questions from './pages/Questions';
 import Landing from './pages/Landing';
@@ -84,6 +85,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <Applications />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/applications/:id"
+        element={
+          <ProtectedRoute>
+            <ApplicationDetail />
           </ProtectedRoute>
         }
       />
