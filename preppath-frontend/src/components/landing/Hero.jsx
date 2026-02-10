@@ -25,7 +25,7 @@ const Hero = () => {
                     practice interview questions, and land your dream job faster.
                 </p>
 
-                <div className="mt-10 flex justify-center gap-x-6">
+                <div className="mt-10 flex justify-center">
                     <button
                         onClick={() => navigate('/register')}
                         className="group inline-flex items-center justify-center rounded-full py-4 px-8 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 focus-visible:outline-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
@@ -35,14 +35,6 @@ const Hero = () => {
                         <svg className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
-                    </button>
-
-                    <button
-                        onClick={() => navigate('/login')}
-                        className="inline-flex items-center justify-center rounded-full py-4 px-8 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 hover:ring-gray-400 transition-all duration-200"
-                        aria-label="Sign in to your account"
-                    >
-                        Sign In
                     </button>
                 </div>
 

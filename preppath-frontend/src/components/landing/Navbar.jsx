@@ -55,8 +55,14 @@ const Navbar = () => {
                         </button>
                     </div>
 
-                    {/* CTA Button - Right */}
-                    <div className="hidden md:block">
+                    {/* CTA Buttons - Right */}
+                    <div className="hidden md:flex items-center space-x-4">
+                        <button
+                            onClick={() => navigate('/login')}
+                            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                        >
+                            Sign In
+                        </button>
                         <button
                             onClick={() => navigate('/register')}
                             className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-200 font-semibold shadow-sm hover:shadow-md"
@@ -118,12 +124,20 @@ const Navbar = () => {
                             FAQ
                         </button>
 
-                        <button
-                            onClick={() => navigate('/register')}
-                            className="block w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-center"
-                        >
-                            Get Started
-                        </button>
+                        <div className="pt-2 space-y-2">
+                            <button
+                                onClick={() => navigate('/login')}
+                                className="block w-full text-center px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                            >
+                                Sign In
+                            </button>
+                            <button
+                                onClick={() => navigate('/register')}
+                                className="block w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-center"
+                            >
+                                Get Started
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
