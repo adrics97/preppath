@@ -10,11 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+
+//Patrón de diseño: Service - La clase UserService actúa como un servicio que contiene la lógica de negocio relacionada con los usuarios, separando esta lógica de la capa de presentación (controladores) y la capa de acceso a datos (repositorios).
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
 
+    //Patrón de diseño: Dependency Injection - Las dependencias (UserRepository y PasswordEncoder) se inyectan a través del constructor, lo que facilita la gestión de dependencias y mejora la testabilidad de la clase.
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 

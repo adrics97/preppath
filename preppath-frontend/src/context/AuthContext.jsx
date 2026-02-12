@@ -81,5 +81,6 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!token,
     };
 
+    //Patrón de diseño: Provider - El AuthProvider actúa como un proveedor de contexto que encapsula la lógica de autenticación y proporciona el estado y las funciones relacionadas a toda la aplicación, permitiendo que cualquier componente acceda a esta información sin necesidad de prop drilling.
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+
+//Patrón de diseño: Repository - La interfaz UserRepository actúa como un repositorio que proporciona una abstracción para acceder a los datos de los usuarios, permitiendo realizar operaciones CRUD sin exponer los detalles de la implementación de la base de datos.
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     
