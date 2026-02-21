@@ -43,16 +43,16 @@ const Hero = () => {
                     <p className="text-sm text-gray-600 mb-4">Join developers preparing for their next role</p>
                     <div className="flex flex-wrap justify-center items-center gap-6 text-gray-400">
                         <div className="flex items-center space-x-2">
-                            <span className="text-2xl" aria-hidden="true">👥</span>
-                            <span className="text-sm font-medium">Active Community</span>
+                            <span className="text-2xl" aria-hidden="true">🚀</span>
+                            <span className="text-sm font-medium">Ready in 2 minutes</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <span className="text-2xl" aria-hidden="true">💼</span>
-                            <span className="text-sm font-medium">Track Unlimited Apps</span>
+                            <span className="text-2xl" aria-hidden="true">💳</span>
+                            <span className="text-sm font-medium">No credit card required</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <span className="text-2xl" aria-hidden="true">⭐</span>
-                            <span className="text-sm font-medium">Start Free</span>
+                            <span className="text-2xl" aria-hidden="true">🎁</span>
+                            <span className="text-sm font-medium">Free plan, forever</span>
                         </div>
                     </div>
                 </div>

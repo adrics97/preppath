@@ -8,7 +8,6 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [loading, setLoading] = useState(true);
 
-    // Check if user is logged in on mount
     useEffect(() => {
         if (token) {
             fetchUserProfile();
@@ -29,20 +28,21 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const _saveSession = ({ token, ...userData }) => {
+        localStorage.setItem('token', token);
+        setToken(token);
+        setUser(userData);
+    };
+
     const login = async (email, password) => {
         try {
             const response = await api.post('/auth/login', { email, password });
-            const { token, ...userData } = response.data;
-
-            localStorage.setItem('token', token);
-            setToken(token);
-            setUser(userData);
-
+            _saveSession(response.data);
             return { success: true };
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Login failed'
+                error: error.response?.data?.message || 'Login failed',
             };
         }
     };
@@ -50,17 +50,62 @@ export const AuthProvider = ({ children }) => {
     const register = async (name, email, password) => {
         try {
             const response = await api.post('/auth/register', { name, email, password });
-            const { token, ...userData } = response.data;
-
-            localStorage.setItem('token', token);
-            setToken(token);
-            setUser(userData);
-
+            _saveSession(response.data);
             return { success: true };
         } catch (error) {
             return {
                 success: false,
-                error: error.response?.data?.message || 'Registration failed'
+                error: error.response?.data?.message || 'Registration failed',
+            };
+        }
+    };
+
+    const googleLogin = async (accessToken) => {
+        try {
+            const response = await api.post('/auth/google', { accessToken });
+            _saveSession(response.data);
+            return { success: true };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.message || 'Google sign-in failed',
+            };
+        }
+    };
+
+    const githubLogin = async (code) => {
+        try {
+            const response = await api.post('/auth/github', { code });
+            _saveSession(response.data);
+            return { success: true };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.message || 'GitHub sign-in failed',
+            };
+        }
+    };
+
+    const forgotPassword = async (email) => {
+        try {
+            await api.post('/auth/forgot-password', { email });
+            return { success: true };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.message || 'Failed to send reset email',
+            };
+        }
+    };
+
+    const resetPassword = async (token, password) => {
+        try {
+            await api.post('/auth/reset-password', { token, password });
+            return { success: true };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.message || 'Failed to reset password',
             };
         }
     };
@@ -78,6 +123,10 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
+        googleLogin,
+        githubLogin,
+        forgotPassword,
+        resetPassword,
         isAuthenticated: !!token,
     };
 

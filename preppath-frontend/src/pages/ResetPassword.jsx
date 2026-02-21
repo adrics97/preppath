@@ -1,19 +1,31 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
-import OAuthButtons from '../components/auth/OAuthButtons';
 
-const Register = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
+const ResetPassword = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [done, setDone] = useState(false);
 
-    const { register, googleLogin } = useAuth();
+    const { resetPassword } = useAuth();
     const navigate = useNavigate();
-    const googleEnabled = !!import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get('token');
+
+    if (!token) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+                <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
+                    <p className="text-red-600 font-medium mb-4">Invalid or expired reset link.</p>
+                    <Link to="/forgot-password" className="text-blue-600 hover:text-blue-700 font-semibold text-sm">
+                        Request a new link
+                    </Link>
+                </div>
+            </div>
+        );
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,42 +41,40 @@ const Register = () => {
         }
 
         setLoading(true);
-        const result = await register(name, email, password);
+        const result = await resetPassword(token, password);
         if (result.success) {
-            navigate('/dashboard');
+            setDone(true);
+            setTimeout(() => navigate('/login'), 3000);
         } else {
             setError(result.error);
         }
         setLoading(false);
     };
 
-    const handleGoogleSuccess = async (accessToken) => {
-        setLoading(true);
-        setError('');
-        const result = await googleLogin(accessToken);
-        if (result.success) {
-            navigate('/dashboard');
-        } else {
-            setError(result.error);
-        }
-        setLoading(false);
-    };
+    if (done) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+                <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Password updated!</h2>
+                    <p className="text-gray-600 text-sm">Redirecting you to login...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
             <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
                 <div className="text-center mb-8">
                     <h1 className="text-4xl font-black bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">PrepPath</h1>
-                    <p className="text-gray-600 mt-2">Create your account to get started.</p>
+                    <h2 className="text-xl font-bold text-gray-900 mt-4">Set a new password</h2>
+                    <p className="text-gray-600 mt-2 text-sm">Choose a strong password for your account.</p>
                 </div>
-
-                {googleEnabled && (
-                    <OAuthButtons
-                        onGoogleSuccess={handleGoogleSuccess}
-                        onError={setError}
-                        disabled={loading}
-                    />
-                )}
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                     {error && (
@@ -74,40 +84,8 @@ const Register = () => {
                     )}
 
                     <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                            Full Name
-                        </label>
-                        <input
-                            id="name"
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                            autoComplete="name"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                            placeholder="John Doe"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                            Email
-                        </label>
-                        <input
-                            id="email"
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            autoComplete="email"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                            placeholder="you@example.com"
-                        />
-                    </div>
-
-                    <div>
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                            Password
+                            New Password
                         </label>
                         <input
                             id="password"
@@ -124,7 +102,7 @@ const Register = () => {
 
                     <div>
                         <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                            Confirm Password
+                            Confirm New Password
                         </label>
                         <input
                             id="confirmPassword"
@@ -150,19 +128,12 @@ const Register = () => {
                         disabled={loading}
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {loading ? 'Creating account...' : 'Sign Up'}
+                        {loading ? 'Updating...' : 'Update password'}
                     </button>
                 </form>
-
-                <p className="text-center text-gray-600 mt-6 text-sm">
-                    Already have an account?{' '}
-                    <Link to="/login" className="text-blue-600 hover:text-blue-700 font-semibold">
-                        Login
-                    </Link>
-                </p>
             </div>
         </div>
     );
 };
 
-export default Register;
+export default ResetPassword;
