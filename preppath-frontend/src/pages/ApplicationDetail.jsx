@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import api from '../services/api';
 
 const ApplicationDetail = () => {
@@ -74,7 +73,6 @@ const ApplicationDetail = () => {
     if (loading) {
         return (
             <>
-                <Navbar />
                 <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                     <div className="text-xl text-gray-600">Loading...</div>
                 </div>
@@ -85,7 +83,6 @@ const ApplicationDetail = () => {
     if (error || !application) {
         return (
             <>
-                <Navbar />
                 <div className="min-h-screen bg-gray-50">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
@@ -105,7 +102,6 @@ const ApplicationDetail = () => {
 
     return (
         <>
-            <Navbar />
             <div className="min-h-screen bg-gray-50">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     {/* Header */}

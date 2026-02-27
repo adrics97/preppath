@@ -18,6 +18,7 @@ import Pricing from './pages/Pricing';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
 import SubscriptionDashboard from './pages/SubscriptionDashboard';
+import AppLayout from './components/AppLayout';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -63,13 +64,13 @@ function AppRoutes() {
       <Route path="/auth/github/callback" element={<GitHubCallback />} />
 
       {/* Protected Routes */}
-      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-      <Route path="/applications" element={<ProtectedRoute><Applications /></ProtectedRoute>} />
-      <Route path="/applications/:id" element={<ProtectedRoute><ApplicationDetail /></ProtectedRoute>} />
-      <Route path="/companies" element={<ProtectedRoute><Companies /></ProtectedRoute>} />
-      <Route path="/questions" element={<ProtectedRoute><Questions /></ProtectedRoute>} />
-      <Route path="/pricing" element={<ProtectedRoute><Pricing /></ProtectedRoute>} />
-      <Route path="/subscription" element={<ProtectedRoute><SubscriptionDashboard /></ProtectedRoute>} />
+      <Route path="/dashboard" element={<ProtectedRoute><AppLayout><Dashboard /></AppLayout></ProtectedRoute>} />
+      <Route path="/applications" element={<ProtectedRoute><AppLayout><Applications /></AppLayout></ProtectedRoute>} />
+      <Route path="/applications/:id" element={<ProtectedRoute><AppLayout><ApplicationDetail /></AppLayout></ProtectedRoute>} />
+      <Route path="/companies" element={<ProtectedRoute><AppLayout><Companies /></AppLayout></ProtectedRoute>} />
+      <Route path="/questions" element={<ProtectedRoute><AppLayout><Questions /></AppLayout></ProtectedRoute>} />
+      <Route path="/pricing" element={<ProtectedRoute><AppLayout><Pricing /></AppLayout></ProtectedRoute>} />
+      <Route path="/subscription" element={<ProtectedRoute><AppLayout><SubscriptionDashboard /></AppLayout></ProtectedRoute>} />
 
       <Route path="/payment/success" element={<PaymentSuccess />} />
       <Route path="/payment/cancel" element={<PaymentCancel />} />
