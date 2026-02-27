@@ -12,11 +12,12 @@ const Pricing = () => {
             features: [
                 '10 job applications',
                 '50 interview questions',
-                'Basic dashboard',
+                'Application status tracking',
                 'Company database',
-                'Community support',
+                'Interview question bank',
+                'Basic dashboard',
             ],
-            cta: 'Get Started',
+            cta: 'Get Started Free',
             highlighted: false,
         },
         {
@@ -27,32 +28,14 @@ const Pricing = () => {
             badge: 'Most Popular',
             features: [
                 'Unlimited applications',
-                'Unlimited questions',
-                'Advanced analytics',
-                'Export to PDF',
-                'Email reminders',
+                'Unlimited interview questions',
                 'Practice session tracking',
+                'Advanced dashboard & stats',
+                'Company database',
                 'Priority support',
             ],
-            cta: 'Start Free Trial',
+            cta: 'Upgrade to Pro',
             highlighted: true,
-        },
-        {
-            name: 'Enterprise',
-            price: 'Custom',
-            period: 'contact us',
-            description: 'For teams and bootcamps',
-            features: [
-                'Everything in Pro',
-                'Team management',
-                'SSO authentication',
-                'Admin dashboard',
-                'Custom integrations',
-                'Dedicated support',
-                'SLA guarantee',
-            ],
-            cta: 'Contact Sales',
-            highlighted: false,
         },
     ];
 
@@ -68,7 +51,7 @@ const Pricing = () => {
                     </p>
                 </div>
 
-                <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3">
+                <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2 max-w-4xl mx-auto">
                     {plans.map((plan, index) => (
                         <div
                             key={index}
@@ -124,7 +107,7 @@ const Pricing = () => {
                             </div>
 
                             <button
-                                onClick={() => plan.name === 'Enterprise' ? window.location.href = 'mailto:hello@preppathapp.com' : navigate('/register')}
+                                onClick={() => navigate('/register')}
                                 className={`mt-8 w-full rounded-full py-3 px-6 text-center text-sm font-semibold transition-all duration-200 ${plan.highlighted
                                         ? 'bg-white text-blue-600 hover:bg-gray-100 shadow-lg'
                                         : 'bg-blue-600 text-white hover:bg-blue-700 ring-1 ring-blue-600'
@@ -137,7 +120,7 @@ const Pricing = () => {
                 </div>
 
                 <p className="mt-8 text-center text-sm text-gray-600">
-                    All plans include a 14-day free trial. No credit card required. Cancel anytime.
+                    No credit card required. Cancel anytime.
                 </p>
             </div>
         </div>
