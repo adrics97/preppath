@@ -56,8 +56,8 @@ const PublicRoute = ({ children }) => {
 function AppRoutes() {
   return (
     <Routes>
-      {/* Landing Page */}
-      <Route path="/" element={<Landing />} />
+      {/* Landing Page - redirect to dashboard if already logged in */}
+      <Route path="/" element={<PublicRoute><Landing /></PublicRoute>} />
 
       {/* Public Routes */}
       <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
