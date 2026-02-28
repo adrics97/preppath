@@ -115,8 +115,8 @@ const ApplicationDetail = () => {
         }).format(salary);
     };
 
-    const inputClass = "w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500";
-    const labelClass = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2";
+    const inputClass = "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm";
+    const labelClass = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
 
     if (loading) {
         return (
@@ -153,7 +153,7 @@ const ApplicationDetail = () => {
                     <div className="mb-6">
                         <button
                             onClick={() => navigate('/applications')}
-                            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 mb-4 inline-flex items-center gap-1 text-sm"
+                            className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 mb-4 inline-flex items-center gap-1 text-sm transition"
                         >
                             ← Back to Applications
                         </button>
@@ -162,15 +162,27 @@ const ApplicationDetail = () => {
                                 <h1 className="text-3xl font-bold text-gray-800 dark:text-white">{application.position}</h1>
                                 <p className="text-xl text-gray-600 dark:text-gray-400 mt-1">{application.company.name}</p>
                             </div>
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2">
                                 <span className={`px-4 py-2 rounded-full text-sm font-medium ${getStatusColor(application.status)}`}>
                                     {application.status}
                                 </span>
                                 <button
                                     onClick={openEditModal}
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2"
+                                    title="Edit"
+                                    className="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition"
                                 >
-                                    ✏️ Edit
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </button>
+                                <button
+                                    onClick={handleDelete}
+                                    title="Delete"
+                                    className="p-2 text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
+                                >
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -250,27 +262,6 @@ const ApplicationDetail = () => {
                         </div>
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="mt-6 flex gap-4">
-                        <button
-                            onClick={() => navigate('/applications')}
-                            className="flex-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-6 py-3 rounded-lg font-medium transition"
-                        >
-                            Back
-                        </button>
-                        <button
-                            onClick={openEditModal}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition"
-                        >
-                            Edit Application
-                        </button>
-                        <button
-                            onClick={handleDelete}
-                            className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition"
-                        >
-                            Delete
-                        </button>
-                    </div>
                 </div>
             </div>
 
@@ -279,8 +270,8 @@ const ApplicationDetail = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
                     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div className="p-6">
-                            <div className="flex justify-between items-center mb-6">
-                                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Edit Application</h2>
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-bold text-gray-800 dark:text-white">Edit Application</h2>
                                 <button
                                     onClick={() => setShowEditModal(false)}
                                     className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-2xl leading-none"
@@ -289,7 +280,7 @@ const ApplicationDetail = () => {
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSave} className="space-y-4">
+                            <form onSubmit={handleSave} className="space-y-3">
                                 <div>
                                     <label className={labelClass}>Position *</label>
                                     <input
@@ -370,7 +361,7 @@ const ApplicationDetail = () => {
                                     <textarea
                                         value={editForm.notes}
                                         onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })}
-                                        rows="3"
+                                        rows="2"
                                         className={inputClass}
                                         placeholder="Notes about this application..."
                                     />
@@ -381,7 +372,7 @@ const ApplicationDetail = () => {
                                     <textarea
                                         value={editForm.feedback}
                                         onChange={(e) => setEditForm({ ...editForm, feedback: e.target.value })}
-                                        rows="3"
+                                        rows="2"
                                         className={inputClass}
                                         placeholder="Interview feedback, rejection reason..."
                                     />

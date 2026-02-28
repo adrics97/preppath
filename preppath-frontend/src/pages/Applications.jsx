@@ -194,7 +194,8 @@ const Applications = () => {
                             {filteredApplications.map((app) => (
                                 <div
                                     key={app.id}
-                                    className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition"
+                                    className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition cursor-pointer"
+                                    onClick={() => navigate(`/applications/${app.id}`)}
                                 >
                                     <div className="flex justify-between items-start">
                                         <div className="flex-1">
@@ -246,22 +247,15 @@ const Applications = () => {
                                             )}
                                         </div>
 
-                                        <div className="flex space-x-2 ml-4">
-                                            <button
-                                                onClick={() => navigate(`/applications/${app.id}`)}
-                                                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                                                title="Edit"
-                                            >
-                                                ✏️
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(app.id)}
-                                                className="text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                                                title="Delete"
-                                            >
-                                                🗑️
-                                            </button>
-                                        </div>
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); handleDelete(app.id); }}
+                                            className="ml-4 p-2 text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition flex-shrink-0"
+                                            title="Delete"
+                                        >
+                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
                             ))}
