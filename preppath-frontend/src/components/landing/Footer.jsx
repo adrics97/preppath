@@ -75,17 +75,17 @@ const Footer = () => {
                         </h4>
                         <ul className="space-y-3">
                             <li>
-                                <a href="#" className="text-sm hover:text-white transition-colors">
+                                <a href="/privacy" className="text-sm hover:text-white transition-colors">
                                     Privacy Policy
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="text-sm hover:text-white transition-colors">
+                                <a href="/terms" className="text-sm hover:text-white transition-colors">
                                     Terms of Service
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="text-sm hover:text-white transition-colors">
+                                <a href="/privacy#cookies" className="text-sm hover:text-white transition-colors">
                                     Cookie Policy
                                 </a>
                             </li>

@@ -48,6 +48,7 @@ const AppLayoutInner = ({ children }) => {
     const { dark, toggleDark } = useTheme();
     const navigate = useNavigate();
     const location = useLocation();
+    const [subscription, setSubscription] = useState(null);
     const [isPro, setIsPro] = useState(null);
     const [showUserMenu, setShowUserMenu] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -57,6 +58,7 @@ const AppLayoutInner = ({ children }) => {
         const fetchSubscription = async () => {
             try {
                 const response = await api.get('/subscription/current');
+                setSubscription(response.data);
                 setIsPro(response.data.planName === 'PRO');
             } catch {
                 setIsPro(false);
@@ -139,9 +141,32 @@ const AppLayoutInner = ({ children }) => {
                         })}
                     </nav>
 
-                    {/* Upgrade banner (solo free) */}
-                    {isPro === false && (
-                        <div className="px-3 pb-4">
+                    {/* Usage counter + Upgrade (solo free) */}
+                    {isPro === false && subscription && (
+                        <div className="px-3 pb-4 space-y-3">
+                            {/* Usage bar */}
+                            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 border border-gray-200 dark:border-gray-700">
+                                <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1.5">
+                                    <span>Applications</span>
+                                    <span className={subscription.currentApps >= subscription.maxApps * 0.8 ? 'text-orange-500 font-semibold' : ''}>
+                                        {subscription.currentApps} / {subscription.maxApps}
+                                    </span>
+                                </div>
+                                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                                    <div
+                                        className={`h-1.5 rounded-full transition-all ${
+                                            subscription.currentApps >= subscription.maxApps
+                                                ? 'bg-red-500'
+                                                : subscription.currentApps >= subscription.maxApps * 0.8
+                                                ? 'bg-orange-400'
+                                                : 'bg-blue-500'
+                                        }`}
+                                        style={{ width: `${Math.min((subscription.currentApps / subscription.maxApps) * 100, 100)}%` }}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Upgrade button */}
                             <button
                                 onClick={() => navigate('/pricing')}
                                 className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl px-4 py-3 text-sm font-semibold flex items-center gap-2 hover:opacity-90 transition"

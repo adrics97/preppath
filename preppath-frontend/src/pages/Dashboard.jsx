@@ -1,16 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import OnboardingModal from '../components/OnboardingModal';
 
 const Dashboard = () => {
     const [stats, setStats] = useState(null);
     const [applications, setApplications] = useState([]);
     const [upcomingInterviews, setUpcomingInterviews] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showOnboarding, setShowOnboarding] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         fetchDashboardData();
+        if (!localStorage.getItem('onboarding_done')) {
+            setShowOnboarding(true);
+        }
     }, []);
 
     const fetchDashboardData = async () => {
@@ -62,6 +67,8 @@ const Dashboard = () => {
     }
 
     return (
+        <>
+        {showOnboarding && <OnboardingModal onClose={() => setShowOnboarding(false)} />}
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Header */}
@@ -183,6 +190,7 @@ const Dashboard = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

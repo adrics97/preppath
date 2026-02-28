@@ -15,6 +15,8 @@ import Companies from './pages/Companies';
 import Questions from './pages/Questions';
 import Landing from './pages/Landing';
 import Pricing from './pages/Pricing';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
 import SubscriptionDashboard from './pages/SubscriptionDashboard';
@@ -74,6 +76,8 @@ function AppRoutes() {
 
       <Route path="/payment/success" element={<PaymentSuccess />} />
       <Route path="/payment/cancel" element={<PaymentCancel />} />
+      <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/terms" element={<TermsOfService />} />
 
       {/* 404 - Not Found */}
       <Route path="*" element={<Navigate to="/" />} />
