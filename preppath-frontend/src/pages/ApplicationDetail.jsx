@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { toast, notifyAppChanged } from '../utils/toast';
 
 const ApplicationDetail = () => {
     const { id } = useParams();
@@ -61,9 +62,10 @@ const ApplicationDetail = () => {
             const response = await api.put(`/applications/${id}`, payload);
             setApplication(response.data);
             setShowEditModal(false);
+            toast('Application updated successfully');
         } catch (error) {
             console.error('Error updating application:', error);
-            alert('Error updating application. Please try again.');
+            toast('Error updating application. Please try again.', 'error');
         } finally {
             setSaving(false);
         }
@@ -73,10 +75,12 @@ const ApplicationDetail = () => {
         if (!window.confirm('Are you sure you want to delete this application?')) return;
         try {
             await api.delete(`/applications/${id}`);
+            toast('Application deleted');
+            notifyAppChanged();
             navigate('/applications');
         } catch (error) {
             console.error('Error deleting application:', error);
-            alert('Error deleting application.');
+            toast('Error deleting application.', 'error');
         }
     };
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
+import { toast } from '../utils/toast';
 
 const Companies = () => {
     const [companies, setCompanies] = useState([]);
@@ -40,9 +41,10 @@ const Companies = () => {
             setShowModal(false);
             resetForm();
             fetchCompanies();
+            toast('Company created successfully');
         } catch (error) {
             console.error('Error creating company:', error);
-            alert(error.response?.data?.message || 'Error creating company. Please try again.');
+            toast(error.response?.data?.message || 'Error creating company. Please try again.', 'error');
         }
     };
 
@@ -52,9 +54,10 @@ const Companies = () => {
         try {
             await api.delete(`/companies/${id}`);
             fetchCompanies();
+            toast('Company deleted');
         } catch (error) {
             console.error('Error deleting company:', error);
-            alert('Error deleting company.');
+            toast('Error deleting company.', 'error');
         }
     };
 

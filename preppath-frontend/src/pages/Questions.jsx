@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
 import UpgradeModal from '../components/UpgradeModal';
+import { toast } from '../utils/toast';
 
 const Questions = () => {
     const [questions, setQuestions] = useState([]);
@@ -53,9 +54,10 @@ const Questions = () => {
             setShowModal(false);
             resetForm();
             fetchQuestions();
+            toast('Question created successfully');
         } catch (error) {
             console.error('Error creating question:', error);
-            alert('Error creating question. Please try again.');
+            toast('Error creating question. Please try again.', 'error');
         }
     };
 
@@ -74,9 +76,10 @@ const Questions = () => {
         try {
             await api.delete(`/questions/${id}`);
             fetchQuestions();
+            toast('Question deleted');
         } catch (error) {
             console.error('Error deleting question:', error);
-            alert('Error deleting question.');
+            toast('Error deleting question.', 'error');
         }
     };
 

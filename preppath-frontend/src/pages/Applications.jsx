@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import UpgradeModal from '../components/UpgradeModal';
+import { toast, notifyAppChanged } from '../utils/toast';
 
 const Applications = () => {
     const [applications, setApplications] = useState([]);
@@ -51,18 +52,14 @@ const Applications = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log('🔍 Verificando límite...');
             const limitCheck = await api.get('/subscription/can-create-app');
-            console.log('✅ Respuesta límite:', limitCheck.data);
 
             if (!limitCheck.data.canCreate) {
-                console.log('❌ Límite alcanzado - Mostrando modal');
                 setShowUpgradeModal(true);
                 setShowModal(false);
                 return;
             }
 
-            console.log('✅ Puede crear - Continuando...');
             await api.post('/applications', {
                 ...formData,
                 companyId: parseInt(formData.companyId),
@@ -72,9 +69,11 @@ const Applications = () => {
             setShowModal(false);
             resetForm();
             fetchApplications();
+            toast('Application created successfully');
+            notifyAppChanged();
         } catch (error) {
             console.error('Error creating application:', error);
-            alert('Error creating application. Please try again.');
+            toast('Error creating application. Please try again.', 'error');
         }
     };
 
@@ -84,9 +83,11 @@ const Applications = () => {
         try {
             await api.delete(`/applications/${id}`);
             fetchApplications();
+            toast('Application deleted');
+            notifyAppChanged();
         } catch (error) {
             console.error('Error deleting application:', error);
-            alert('Error deleting application.');
+            toast('Error deleting application.', 'error');
         }
     };
 

@@ -65,6 +65,10 @@ const AppLayoutInner = ({ children }) => {
             }
         };
         fetchSubscription();
+
+        const handler = () => fetchSubscription();
+        window.addEventListener('preppath:app-changed', handler);
+        return () => window.removeEventListener('preppath:app-changed', handler);
     }, []);
 
     useEffect(() => {

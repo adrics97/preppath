@@ -21,6 +21,7 @@ import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
 import SubscriptionDashboard from './pages/SubscriptionDashboard';
 import AppLayout from './components/AppLayout';
+import ToastContainer from './components/ToastContainer';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -93,6 +94,7 @@ function App() {
       <Router>
         <AuthProvider>
           <AppRoutes />
+          <ToastContainer />
         </AuthProvider>
       </Router>
     </HelmetProvider>
