@@ -1,7 +1,7 @@
-const stats = [
-    { value: '500+', label: 'Developers using PrepPath' },
-    { value: '8,000+', label: 'Applications tracked' },
-    { value: '25,000+', label: 'Interview questions practiced' },
+const companies = [
+    'Google', 'Meta', 'Stripe', 'Airbnb', 'Netflix',
+    'Spotify', 'Shopify', 'GitHub', 'Notion', 'Figma',
+    'Vercel', 'Linear', 'Atlassian', 'Twilio', 'Datadog',
 ];
 
 const testimonials = [
@@ -29,19 +29,11 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
+    const doubled = [...companies, ...companies];
+
     return (
         <div className="py-24 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-                {/* Stats */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-20">
-                    {stats.map((stat, i) => (
-                        <div key={i} className="text-center">
-                            <p className="text-4xl font-black text-blue-600">{stat.value}</p>
-                            <p className="mt-2 text-sm text-gray-500">{stat.label}</p>
-                        </div>
-                    ))}
-                </div>
 
                 {/* Heading */}
                 <div className="text-center mb-16">
@@ -54,21 +46,16 @@ const Testimonials = () => {
                 </div>
 
                 {/* Testimonials grid */}
-                <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 mb-20">
                     {testimonials.map((t, i) => (
                         <div
                             key={i}
                             className="bg-gray-50 rounded-2xl p-8 border border-gray-100 flex flex-col"
                         >
-                            {/* Quote */}
                             <svg className="w-8 h-8 text-blue-200 mb-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                             </svg>
-                            <p className="text-gray-700 text-sm leading-relaxed flex-1">
-                                {t.quote}
-                            </p>
-
-                            {/* Author */}
+                            <p className="text-gray-700 text-sm leading-relaxed flex-1">{t.quote}</p>
                             <div className="mt-6 flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0">
                                     <span className="text-white text-xs font-bold">{t.initials}</span>
@@ -81,6 +68,30 @@ const Testimonials = () => {
                         </div>
                     ))}
                 </div>
+
+                {/* Company logos marquee */}
+                <div className="border-t border-gray-100 pt-16">
+                    <p className="text-center text-sm text-gray-400 mb-10 uppercase tracking-widest font-medium">
+                        Companies our users are applying to
+                    </p>
+                    <div className="overflow-hidden relative">
+                        {/* Fade edges */}
+                        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent z-10" />
+                        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent z-10" />
+
+                        <div className="flex animate-marquee whitespace-nowrap">
+                            {doubled.map((name, i) => (
+                                <span
+                                    key={i}
+                                    className="inline-flex items-center mx-8 text-gray-300 font-black text-xl tracking-tight hover:text-gray-500 transition-colors duration-200 cursor-default"
+                                >
+                                    {name}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     );
