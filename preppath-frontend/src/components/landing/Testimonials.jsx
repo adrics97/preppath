@@ -89,17 +89,13 @@ const Testimonials = () => {
 
                         <div className="flex items-center animate-marquee">
                             {doubled.map((c, i) => (
-                                <div key={i} className="flex-shrink-0 mx-10 opacity-40 hover:opacity-70 transition-opacity duration-200">
+                                <div key={i} className="flex-shrink-0 mx-10 flex items-center gap-2 opacity-40 hover:opacity-80 transition-opacity duration-200">
                                     <img
-                                        src={`https://logo.clearbit.com/${c.domain}`}
+                                        src={`https://www.google.com/s2/favicons?domain=${c.domain}&sz=64`}
                                         alt={c.name}
-                                        className="h-8 w-auto object-contain grayscale"
-                                        onError={(e) => {
-                                            e.target.style.display = 'none';
-                                            e.target.nextSibling.style.display = 'block';
-                                        }}
+                                        className="w-5 h-5 object-contain grayscale"
                                     />
-                                    <span className="hidden text-gray-400 font-semibold text-sm">{c.name}</span>
+                                    <span className="text-gray-500 font-semibold text-sm whitespace-nowrap">{c.name}</span>
                                 </div>
                             ))}
                         </div>
