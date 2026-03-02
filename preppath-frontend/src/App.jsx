@@ -22,6 +22,10 @@ import PaymentCancel from './pages/PaymentCancel';
 import SubscriptionDashboard from './pages/SubscriptionDashboard';
 import AppLayout from './components/AppLayout';
 import ToastContainer from './components/ToastContainer';
+import Blog from './pages/Blog';
+import TrackApplications from './pages/blog/TrackApplications';
+import InterviewPrep from './pages/blog/InterviewPrep';
+import JobSearchTips from './pages/blog/JobSearchTips';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -79,6 +83,12 @@ function AppRoutes() {
       <Route path="/payment/cancel" element={<PaymentCancel />} />
       <Route path="/privacy" element={<PrivacyPolicy />} />
       <Route path="/terms" element={<TermsOfService />} />
+
+      {/* Blog */}
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/how-to-track-job-applications-developer" element={<TrackApplications />} />
+      <Route path="/blog/technical-interview-preparation-guide" element={<InterviewPrep />} />
+      <Route path="/blog/developer-job-search-tips" element={<JobSearchTips />} />
 
       {/* 404 - Not Found */}
       <Route path="*" element={<Navigate to="/" />} />

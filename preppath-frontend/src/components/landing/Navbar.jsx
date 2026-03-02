@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 const Navbar = () => {
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,6 +53,12 @@ const Navbar = () => {
                             className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
                         >
                             FAQ
+                        </button>
+                        <button
+                            onClick={() => navigate('/blog')}
+                            className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                        >
+                            Blog
                         </button>
                     </div>
 
@@ -122,6 +129,12 @@ const Navbar = () => {
                             className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors font-medium"
                         >
                             FAQ
+                        </button>
+                        <button
+                            onClick={() => { navigate('/blog'); setIsMenuOpen(false); }}
+                            className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors font-medium"
+                        >
+                            Blog
                         </button>
 
                         <div className="pt-2 space-y-2">
