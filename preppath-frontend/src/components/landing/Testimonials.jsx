@@ -89,13 +89,13 @@ const Testimonials = () => {
 
                         <div className="flex items-center animate-marquee">
                             {doubled.map((c, i) => (
-                                <div key={i} className="flex-shrink-0 mx-10 flex items-center gap-2 opacity-40 hover:opacity-80 transition-opacity duration-200">
+                                <div key={i} className="flex-shrink-0 mx-10 flex items-center gap-2.5">
                                     <img
-                                        src={`https://www.google.com/s2/favicons?domain=${c.domain}&sz=64`}
+                                        src={`https://www.google.com/s2/favicons?domain=${c.domain}&sz=32`}
                                         alt={c.name}
-                                        className="w-5 h-5 object-contain grayscale"
+                                        className="w-5 h-5 object-contain"
                                     />
-                                    <span className="text-gray-500 font-semibold text-sm whitespace-nowrap">{c.name}</span>
+                                    <span className="text-gray-600 font-semibold text-sm whitespace-nowrap">{c.name}</span>
                                 </div>
                             ))}
                         </div>
