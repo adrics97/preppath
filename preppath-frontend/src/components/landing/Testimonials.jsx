@@ -1,7 +1,19 @@
 const companies = [
-    'Google', 'Meta', 'Stripe', 'Airbnb', 'Netflix',
-    'Spotify', 'Shopify', 'GitHub', 'Notion', 'Figma',
-    'Vercel', 'Linear', 'Atlassian', 'Twilio', 'Datadog',
+    { name: 'Google',    domain: 'google.com' },
+    { name: 'Meta',      domain: 'meta.com' },
+    { name: 'Stripe',    domain: 'stripe.com' },
+    { name: 'Airbnb',    domain: 'airbnb.com' },
+    { name: 'Netflix',   domain: 'netflix.com' },
+    { name: 'Spotify',   domain: 'spotify.com' },
+    { name: 'Shopify',   domain: 'shopify.com' },
+    { name: 'GitHub',    domain: 'github.com' },
+    { name: 'Notion',    domain: 'notion.so' },
+    { name: 'Figma',     domain: 'figma.com' },
+    { name: 'Vercel',    domain: 'vercel.com' },
+    { name: 'Linear',    domain: 'linear.app' },
+    { name: 'Atlassian', domain: 'atlassian.com' },
+    { name: 'Twilio',    domain: 'twilio.com' },
+    { name: 'Datadog',   domain: 'datadoghq.com' },
 ];
 
 const testimonials = [
@@ -48,10 +60,7 @@ const Testimonials = () => {
                 {/* Testimonials grid */}
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 mb-20">
                     {testimonials.map((t, i) => (
-                        <div
-                            key={i}
-                            className="bg-gray-50 rounded-2xl p-8 border border-gray-100 flex flex-col"
-                        >
+                        <div key={i} className="bg-gray-50 rounded-2xl p-8 border border-gray-100 flex flex-col">
                             <svg className="w-8 h-8 text-blue-200 mb-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                             </svg>
@@ -75,18 +84,23 @@ const Testimonials = () => {
                         Companies our users are applying to
                     </p>
                     <div className="overflow-hidden relative">
-                        {/* Fade edges */}
-                        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent z-10" />
-                        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent z-10" />
+                        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10" />
+                        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10" />
 
-                        <div className="flex animate-marquee whitespace-nowrap">
-                            {doubled.map((name, i) => (
-                                <span
-                                    key={i}
-                                    className="inline-flex items-center mx-8 text-gray-300 font-black text-xl tracking-tight hover:text-gray-500 transition-colors duration-200 cursor-default"
-                                >
-                                    {name}
-                                </span>
+                        <div className="flex items-center animate-marquee">
+                            {doubled.map((c, i) => (
+                                <div key={i} className="flex-shrink-0 mx-10 opacity-40 hover:opacity-70 transition-opacity duration-200">
+                                    <img
+                                        src={`https://logo.clearbit.com/${c.domain}`}
+                                        alt={c.name}
+                                        className="h-8 w-auto object-contain grayscale"
+                                        onError={(e) => {
+                                            e.target.style.display = 'none';
+                                            e.target.nextSibling.style.display = 'block';
+                                        }}
+                                    />
+                                    <span className="hidden text-gray-400 font-semibold text-sm">{c.name}</span>
+                                </div>
                             ))}
                         </div>
                     </div>
